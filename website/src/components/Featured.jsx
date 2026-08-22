@@ -9,9 +9,6 @@ export default function Featured() {
           <span className="kicker">Featured</span>
           <h2>The three we keep restocking</h2>
         </div>
-        <a href="#fragrances" className="view-all">
-          View all
-        </a>
       </div>
       <div className="product-grid">
         {PRODUCTS.map((p) => (

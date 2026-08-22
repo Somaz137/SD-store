@@ -4,6 +4,8 @@ import {
   INSTAGRAM_URL,
   PHONE_DISPLAY,
   PHONE_HREF,
+  TIKTOK_HANDLE,
+  TIKTOK_URL,
   WHATSAPP_DISPLAY,
   WHATSAPP_URL,
 } from "../content";
@@ -33,6 +35,12 @@ export default function Footer() {
           <div className="footer-line">
             <span className="footer-label">Instagram</span>
             <a href={INSTAGRAM_URL}>{INSTAGRAM_HANDLE}</a>
+          </div>
+          <div className="footer-line">
+            <span className="footer-label">TikTok</span>
+            <a href={TIKTOK_URL} target="_blank" rel="noopener noreferrer">
+              {TIKTOK_HANDLE}
+            </a>
           </div>
         </div>
 

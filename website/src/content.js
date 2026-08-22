@@ -5,13 +5,15 @@ export const PHONE_HREF = "tel:+923107684099";
 export const WHATSAPP_DISPLAY = "03107684099";
 export const INSTAGRAM_URL = "https://www.instagram.com/sd_store.co";
 export const INSTAGRAM_HANDLE = "@sd_store.co";
+export const TIKTOK_URL = "https://www.tiktok.com/@sd.store47";
+export const TIKTOK_HANDLE = "@sd.store47";
 
 export const NAV_LINKS = [
-  { label: "Fragrances", href: "#fragrances" },
-  { label: "Best Sellers", href: "#featured" },
-  { label: "Gifting", href: "#gifting" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "New Arrivals", href: "/#new-arrivals" },
+  { label: "Best Sellers", href: "/#featured" },
+  { label: "Gifting", href: "/#gifting" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const MARQUEE_ITEMS = [
@@ -22,32 +24,37 @@ export const MARQUEE_ITEMS = [
   "Handpicked, small batch",
 ];
 
-export const FRAGRANCE_TYPES = [
+export const NEW_ARRIVALS = [
   {
-    tag: "Sprays",
-    name: "Eau de Parfum",
-    description:
-      "High oil concentration. Sits close to the skin and holds for 8 to 12 hours.",
+    id: "midnight-oud",
+    name: "Midnight Oud",
+    badge: "New · Eau de Parfum",
+    notes: "Oud · Black Pepper · Leather. Bold and smoky, built for the night.",
+    price: "PKR 4,200",
+    size: "50 ML",
+    image: "cubical",
   },
   {
-    tag: "Sprays",
-    name: "Eau de Toilette",
-    description: "Lighter and fresher. Best for daytime, work and hot weather.",
+    id: "velvet-orchid",
+    name: "Velvet Orchid",
+    badge: "New · Eau de Parfum",
+    notes: "Orchid · Honey · Sandalwood. Rich and floral with a warm, soft finish.",
+    price: "PKR 4,700",
+    size: "100 ML",
+    image: "curved",
   },
   {
-    tag: "Oils",
-    name: "Attar",
-    description:
-      "Alcohol free and oil based. One drop on the pulse points lasts all day.",
-  },
-  {
-    tag: "Mists",
-    name: "Body Mist",
-    description: "The lightest of the four. A quick refresh after a shower or mid day.",
+    id: "citrine-mist",
+    name: "Citrine Mist",
+    badge: "New · Body Mist",
+    notes: "Bergamot · Neroli · White Musk. Bright and clean, a quick daily refresh.",
+    price: "PKR 2,600",
+    size: "150 ML",
+    image: "tear-drop",
   },
 ];
 
-export const PRODUCTS = [
+export const BESTSELLERS = [
   {
     id: "aurora-blush",
     name: "Aurora's Blush",

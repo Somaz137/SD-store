@@ -1,14 +1,31 @@
 import { useState } from "react";
 import logo from "../assets/generated/sd-logo-400.png";
 import { NAV_LINKS, WHATSAPP_URL } from "../content";
+import { useCart } from "../cart/CartContext";
+import { linkHandler } from "../router";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const { totalCount } = useCart();
+
+  const handleLogoClick = (e) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    linkHandler("/")(e);
+  };
 
   return (
     <header className="header">
       <div className="header-bar">
-        <a href="#top" className="header-brand" aria-label="SD Store, back to top">
+        <a
+          href="/"
+          className="header-brand"
+          aria-label="SD Store, back to top"
+          onClick={handleLogoClick}
+        >
           <img src={logo} alt="SD Store" className="header-logo" />
         </a>
 
@@ -25,6 +42,20 @@ export default function Header() {
         <a href={WHATSAPP_URL} className="pill-button header-cta">
           <span className="pill-dot" />
           Order on WhatsApp
+        </a>
+
+        <a
+          href="/cart"
+          className="header-cart"
+          aria-label={`Cart, ${totalCount} item${totalCount === 1 ? "" : "s"}`}
+          onClick={linkHandler("/cart")}
+        >
+          <span className="header-cart-icon" aria-hidden="true">
+            🛍
+          </span>
+          {totalCount > 0 && (
+            <span className="header-cart-badge">{totalCount}</span>
+          )}
         </a>
 
         <button
@@ -48,6 +79,16 @@ export default function Header() {
             {link.label}
           </a>
         ))}
+        <a
+          href="/cart"
+          className="mobile-nav-cart"
+          onClick={(e) => {
+            setOpen(false);
+            linkHandler("/cart")(e);
+          }}
+        >
+          Cart{totalCount > 0 ? ` (${totalCount})` : ""}
+        </a>
         <a
           href={WHATSAPP_URL}
           className="pill-button mobile-nav-cta"

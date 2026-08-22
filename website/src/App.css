@@ -211,6 +211,12 @@
   display: none;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .header-cart {
   position: relative;
   display: flex;
@@ -219,7 +225,6 @@
   width: 32px;
   height: 32px;
   flex: none;
-  margin-left: 12px;
 }
 
 .header-cart-icon {
@@ -348,10 +353,13 @@
     display: inline-flex;
   }
 
+  .header-actions {
+    gap: 24px;
+  }
+
   .header-cart {
     width: 40px;
     height: 40px;
-    margin-left: 20px;
   }
 
   .header-cart-icon {
@@ -542,13 +550,50 @@
   gap: 12px;
 }
 
+.carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.carousel-slide {
+  display: flex;
+  justify-content: center;
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
 .carousel-card {
   max-width: 420px;
   margin: 0 auto;
   width: 100%;
 }
 
+/* keep card content height consistent across slides so the page doesn't
+   jump vertically as the carousel advances */
+.carousel-card .product-body h3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.3em;
+}
+
+.carousel-card .product-notes {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.9em;
+}
+
 .carousel-arrow {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -566,6 +611,44 @@
 .carousel-arrow:hover {
   border-color: var(--gold);
   color: var(--gold);
+}
+
+.carousel-arrow-glyph {
+  position: relative;
+  z-index: 1;
+}
+
+.carousel-arrow-progress {
+  position: absolute;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.carousel-arrow-progress-ring {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 113;
+  stroke-dashoffset: 113;
+  transform-origin: 20px 20px;
+  animation: carousel-progress var(--carousel-interval, 10s) linear forwards;
+}
+
+.carousel-arrow-progress-ring.is-paused {
+  animation-play-state: paused;
+}
+
+@keyframes carousel-progress {
+  from {
+    stroke-dashoffset: 113;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .carousel-dots {
@@ -614,11 +697,13 @@
 
   .carousel-card .product-body h3 {
     font-size: 32px;
+    min-height: 2.3em;
   }
 
   .carousel-card .product-notes {
     font-size: 14px;
     line-height: 1.8;
+    min-height: 3.6em;
   }
 
   .carousel-arrow {
@@ -1113,8 +1198,13 @@
   }
 
   .marquee-track,
-  .footer-logo {
+  .footer-logo,
+  .carousel-arrow-progress-ring {
     animation: none;
+  }
+
+  .carousel-track {
+    transition: none;
   }
 }
 

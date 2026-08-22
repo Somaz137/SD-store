@@ -2,17 +2,15 @@ import { useEffect, useState } from "react";
 import ResponsiveImage from "./ResponsiveImage";
 import { useCart } from "../cart/CartContext";
 
-const AUTO_ADVANCE_MS = 5000;
+const AUTO_ADVANCE_MS = 10000;
 
 export default function ProductCarousel({ id, kicker, title, intro, products }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [addedIndex, setAddedIndex] = useState(-1);
+  const [addedId, setAddedId] = useState(null);
   const { addToCart } = useCart();
 
   const count = products.length;
-  const product = products[index];
-  const justAdded = addedIndex === index;
 
   useEffect(() => {
     if (paused || count <= 1) return undefined;
@@ -26,9 +24,9 @@ export default function ProductCarousel({ id, kicker, title, intro, products }) 
     setIndex(((next % count) + count) % count);
   };
 
-  const handleAdd = () => {
+  const handleAdd = (product) => {
     addToCart(product);
-    setAddedIndex(index);
+    setAddedId(product.id);
   };
 
   return (
@@ -57,31 +55,42 @@ export default function ProductCarousel({ id, kicker, title, intro, products }) 
           &#8249;
         </button>
 
-        <article className="product-card carousel-card">
-          <div className="product-image">
-            <ResponsiveImage
-              prefix={product.image}
-              alt={product.name}
-              sizes="(min-width: 861px) 50vw, 100vw"
-            />
-            <span className="product-badge">{product.badge}</span>
+        <div className="carousel-viewport">
+          <div
+            className="carousel-track"
+            style={{ transform: `translateX(-${index * 100}%)` }}
+          >
+            {products.map((product) => (
+              <div className="carousel-slide" key={product.id}>
+                <article className="product-card carousel-card">
+                  <div className="product-image">
+                    <ResponsiveImage
+                      prefix={product.image}
+                      alt={product.name}
+                      sizes="(min-width: 861px) 50vw, 100vw"
+                    />
+                    <span className="product-badge">{product.badge}</span>
+                  </div>
+                  <div className="product-body">
+                    <h3>{product.name}</h3>
+                    <p className="product-notes">{product.notes}</p>
+                    <div className="product-price">
+                      <span className="price">{product.price}</span>
+                      <span className="size">{product.size}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="button button-outline"
+                      onClick={() => handleAdd(product)}
+                    >
+                      {addedId === product.id ? "Added to Cart ✓" : "Add to Cart"}
+                    </button>
+                  </div>
+                </article>
+              </div>
+            ))}
           </div>
-          <div className="product-body">
-            <h3>{product.name}</h3>
-            <p className="product-notes">{product.notes}</p>
-            <div className="product-price">
-              <span className="price">{product.price}</span>
-              <span className="size">{product.size}</span>
-            </div>
-            <button
-              type="button"
-              className="button button-outline"
-              onClick={handleAdd}
-            >
-              {justAdded ? "Added to Cart ✓" : "Add to Cart"}
-            </button>
-          </div>
-        </article>
+        </div>
 
         <button
           type="button"
@@ -89,7 +98,23 @@ export default function ProductCarousel({ id, kicker, title, intro, products }) 
           aria-label="Next product"
           onClick={() => goTo(index + 1)}
         >
-          &#8250;
+          <svg
+            className="carousel-arrow-progress"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <circle
+              key={index}
+              className={`carousel-arrow-progress-ring${
+                paused || count <= 1 ? " is-paused" : ""
+              }`}
+              cx="20"
+              cy="20"
+              r="18"
+              style={{ "--carousel-interval": `${AUTO_ADVANCE_MS}ms` }}
+            />
+          </svg>
+          <span className="carousel-arrow-glyph">&#8250;</span>
         </button>
       </div>
 

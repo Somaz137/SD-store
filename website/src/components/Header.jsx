@@ -39,35 +39,37 @@ export default function Header() {
           ))}
         </nav>
 
-        <a href={WHATSAPP_URL} className="pill-button header-cta">
-          <span className="pill-dot" />
-          Order on WhatsApp
-        </a>
+        <div className="header-actions">
+          <a href={WHATSAPP_URL} className="pill-button header-cta">
+            <span className="pill-dot" />
+            Order on WhatsApp
+          </a>
 
-        <a
-          href="/cart"
-          className="header-cart"
-          aria-label={`Cart, ${totalCount} item${totalCount === 1 ? "" : "s"}`}
-          onClick={linkHandler("/cart")}
-        >
-          <span className="header-cart-icon" aria-hidden="true">
-            🛍
-          </span>
-          {totalCount > 0 && (
-            <span className="header-cart-badge">{totalCount}</span>
-          )}
-        </a>
+          <a
+            href="/cart"
+            className="header-cart"
+            aria-label={`Cart, ${totalCount} item${totalCount === 1 ? "" : "s"}`}
+            onClick={linkHandler("/cart")}
+          >
+            <span className="header-cart-icon" aria-hidden="true">
+              🛍
+            </span>
+            {totalCount > 0 && (
+              <span className="header-cart-badge">{totalCount}</span>
+            )}
+          </a>
 
-        <button
-          type="button"
-          className={`menu-toggle${open ? " is-open" : ""}`}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span />
-          <span />
-        </button>
+          <button
+            type="button"
+            className={`menu-toggle${open ? " is-open" : ""}`}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
       <nav

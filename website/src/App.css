@@ -171,6 +171,7 @@
 }
 
 .header-bar {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -272,6 +273,9 @@
 
   .header-nav {
     display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     gap: 40px;
     font: 300 12px/1 var(--font-sans);
     letter-spacing: 0.2em;

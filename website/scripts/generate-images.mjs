@@ -69,6 +69,13 @@ async function buildPhoto({ name, src }) {
   return { widths };
 }
 
+// Ink background behind the logo. Browser tabs, phone home screens, and
+// link-preview cards all composite icons/thumbnails onto their own
+// background (usually white), so a logo with a transparent PNG background
+// loses its dark mark and shows mostly as its light bag outline. Flattening
+// onto the site's ink color keeps the mark visible everywhere it's reused.
+const INK_BG = "#0A0908";
+
 async function buildLogo() {
   const src = path.join(ASSETS, "sd-logo.png");
   const height = 400;
@@ -83,10 +90,66 @@ async function buildLogo() {
   await copyFile(path.join(OUT, "favicon.png"), path.join(PUBLIC, "favicon.png"));
 }
 
+async function buildSocialIcons() {
+  const src = path.join(ASSETS, "sd-logo.png");
+
+  // Flattened favicon: browser tabs render on light chrome, so the
+  // transparent-background favicon can disappear into it.
+  await sharp(src)
+    .resize({ height: 128 })
+    .flatten({ background: INK_BG })
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(OUT, "favicon-solid.png"));
+  await copyFile(
+    path.join(OUT, "favicon-solid.png"),
+    path.join(PUBLIC, "favicon-solid.png"),
+  );
+
+  // Apple touch icon: iOS ignores alpha entirely and fills transparent
+  // pixels with white, so this must be flattened too.
+  await sharp(src)
+    .resize({ height: 160 })
+    .flatten({ background: INK_BG })
+    .extend({
+      top: 20,
+      bottom: 20,
+      left: 130,
+      right: 130,
+      background: INK_BG,
+    })
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(OUT, "apple-touch-icon.png"));
+  await copyFile(
+    path.join(OUT, "apple-touch-icon.png"),
+    path.join(PUBLIC, "apple-touch-icon.png"),
+  );
+
+  // Social share preview (og:image / twitter:image): link-preview cards on
+  // WhatsApp, iMessage, Slack, etc. don't render transparency either, and
+  // without an explicit og:image they fall back to the tiny favicon anyway.
+  const logo = await sharp(src).resize({ height: 460 }).toBuffer();
+  await sharp({
+    create: {
+      width: 1200,
+      height: 630,
+      channels: 3,
+      background: INK_BG,
+    },
+  })
+    .composite([{ input: logo, gravity: "center" }])
+    .jpeg({ quality: 90, mozjpeg: true })
+    .toFile(path.join(OUT, "og-image.jpg"));
+  await copyFile(
+    path.join(OUT, "og-image.jpg"),
+    path.join(PUBLIC, "og-image.jpg"),
+  );
+}
+
 const manifest = { hero: await buildHero() };
 for (const photo of PHOTOS) {
   manifest[photo.name] = await buildPhoto(photo);
 }
 await buildLogo();
+await buildSocialIcons();
 
 console.log(JSON.stringify(manifest, null, 2));

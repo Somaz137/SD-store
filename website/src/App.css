@@ -372,6 +372,11 @@
 
 .hero {
   position: relative;
+  /* width must be explicit: with width left auto, browsers resolve the
+     clamped min/max-height back through the ratio and derive width from
+     height instead of the other way around, blowing the box out past the
+     viewport (e.g. 320px min-height * 1.5 = 480px wide on a 375px screen) */
+  width: 100%;
   /* matches the hero-mobile crop (2304x1536) so object-fit: cover only
      trims a few px off each edge instead of cropping out the outer bottles */
   aspect-ratio: 1.5;
@@ -441,9 +446,22 @@
 
 @media (min-width: 861px) {
   .hero {
-    aspect-ratio: auto;
-    height: 660px;
-    max-height: none;
+    /* a fixed height (vs. the source photo's ~1.79:1 ratio) crops more and
+       more vertically as the viewport widens — at 1920px wide it was cutting
+       ~38% off the top+bottom combined, clipping the logo's bag-hook, which
+       sits only ~20px from the top edge of the source photo with no margin
+       to spare. Scaling height with width keeps that crop small and constant
+       instead, only clamping at the min/max edges. */
+    aspect-ratio: 1.9;
+    min-height: 420px;
+    max-height: 780px;
+  }
+
+  .hero-image {
+    /* the small remaining crop (~6% at the aspect-ratio above) is pushed
+       mostly onto the bottom (plain marble/shadow) instead of split evenly,
+       since the top has no margin below the logo hook to give up */
+    object-position: center 15%;
   }
 
   .hero-scrim {

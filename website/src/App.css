@@ -217,25 +217,16 @@
   gap: 14px;
 }
 
+/* cart access on mobile lives in the hamburger dropdown (.mobile-nav-cart);
+   the top bar itself only shows it from the desktop nav breakpoint up */
 .header-cart {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex: none;
-}
-
-.header-cart-icon {
-  font-size: 19px;
-  line-height: 1;
+  display: none;
 }
 
 .header-cart-badge {
   position: absolute;
-  top: -4px;
-  right: -6px;
+  top: -8px;
+  right: -14px;
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
@@ -358,12 +349,17 @@
   }
 
   .header-cart {
-    width: 40px;
-    height: 40px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    font: 300 12px/1 var(--font-sans);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(246, 237, 225, 0.72);
   }
 
-  .header-cart-icon {
-    font-size: 23px;
+  .header-cart:hover {
+    color: var(--gold-light);
   }
 
   .menu-toggle,

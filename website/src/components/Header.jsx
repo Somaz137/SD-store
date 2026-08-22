@@ -51,9 +51,7 @@ export default function Header() {
             aria-label={`Cart, ${totalCount} item${totalCount === 1 ? "" : "s"}`}
             onClick={linkHandler("/cart")}
           >
-            <span className="header-cart-icon" aria-hidden="true">
-              🛍
-            </span>
+            Cart
             {totalCount > 0 && (
               <span className="header-cart-badge">{totalCount}</span>
             )}

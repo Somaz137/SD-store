@@ -2,23 +2,27 @@ import { useEffect, useState } from "react";
 import ResponsiveImage from "./ResponsiveImage";
 import { useCart } from "../cart/CartContext";
 
-const AUTO_ADVANCE_MS = 10000;
+const AUTO_ADVANCE_MS = 7000;
 
 export default function ProductCarousel({ id, kicker, title, intro, products }) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [addedId, setAddedId] = useState(null);
   const { addToCart } = useCart();
 
   const count = products.length;
 
+  // Re-arms on every index change (auto-advance or manual arrow/dot click) so
+  // the timer and the next-arrow's progress ring (also keyed on index) never
+  // drift apart — a fixed setInterval kept its own schedule regardless of
+  // manual navigation, so the ring could finish without an advance actually
+  // being due yet.
   useEffect(() => {
-    if (paused || count <= 1) return undefined;
-    const timer = setInterval(() => {
+    if (count <= 1) return undefined;
+    const timer = setTimeout(() => {
       setIndex((i) => (i + 1) % count);
     }, AUTO_ADVANCE_MS);
-    return () => clearInterval(timer);
-  }, [paused, count]);
+    return () => clearTimeout(timer);
+  }, [index, count]);
 
   const goTo = (next) => {
     setIndex(((next % count) + count) % count);
@@ -39,13 +43,7 @@ export default function ProductCarousel({ id, kicker, title, intro, products }) 
         {intro && <p className="section-intro">{intro}</p>}
       </div>
 
-      <div
-        className="carousel"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocus={() => setPaused(true)}
-        onBlur={() => setPaused(false)}
-      >
+      <div className="carousel">
         <button
           type="button"
           className="carousel-arrow carousel-arrow-prev"
@@ -106,7 +104,7 @@ export default function ProductCarousel({ id, kicker, title, intro, products }) 
             <circle
               key={index}
               className={`carousel-arrow-progress-ring${
-                paused || count <= 1 ? " is-paused" : ""
+                count <= 1 ? " is-paused" : ""
               }`}
               cx="20"
               cy="20"

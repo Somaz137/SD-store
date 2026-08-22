@@ -6,6 +6,7 @@ export default function Hero() {
     <section id="top" className="hero">
       <ResponsiveImage
         prefix="hero"
+        mobilePrefix="hero-mobile"
         alt="SD Store fragrances"
         className="hero-image"
         sizes="100vw"

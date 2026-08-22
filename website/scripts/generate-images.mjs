@@ -14,6 +14,14 @@ await mkdir(OUT, { recursive: true });
 const HERO_SRC = path.join(ASSETS, "hero-image.jpeg");
 const HERO_WIDTHS = [800, 1200, 1600, 2200];
 
+// Mobile hero: the source photo is a wide ~1.79:1 banner, but the mobile hero
+// box is much narrower relative to its height, so object-fit: cover on the
+// same file crops away the outer bottles. This crop (centered, full height,
+// 2304px wide) keeps all four bottles in frame at a ~1.5:1 ratio the mobile
+// hero box is sized to match.
+const HERO_MOBILE_WIDTHS = [480, 640, 828, 1080];
+const HERO_MOBILE_CROP = { left: 224, top: 0, width: 2304, height: 1536 };
+
 // Product / gifting photos are shown much smaller (product cards, half-width
 // panel), so they can take noticeably more compression without a visible hit.
 const PHOTO_WIDTHS = [480, 720, 960, 1280, 1920];
@@ -48,6 +56,22 @@ async function buildHero() {
 
   manifest.widths = [...HERO_WIDTHS.filter((w) => w < meta.width), meta.width];
   return manifest;
+}
+
+async function buildHeroMobile() {
+  for (const w of HERO_MOBILE_WIDTHS) {
+    await sharp(HERO_SRC)
+      .extract(HERO_MOBILE_CROP)
+      .resize({ width: w })
+      .jpeg({ quality: 90, mozjpeg: true })
+      .toFile(path.join(OUT, `hero-mobile-${w}.jpg`));
+    await sharp(HERO_SRC)
+      .extract(HERO_MOBILE_CROP)
+      .resize({ width: w })
+      .webp({ quality: 90 })
+      .toFile(path.join(OUT, `hero-mobile-${w}.webp`));
+  }
+  return { widths: HERO_MOBILE_WIDTHS, crop: HERO_MOBILE_CROP };
 }
 
 async function buildPhoto({ name, src }) {
@@ -145,7 +169,7 @@ async function buildSocialIcons() {
   );
 }
 
-const manifest = { hero: await buildHero() };
+const manifest = { hero: await buildHero(), heroMobile: await buildHeroMobile() };
 for (const photo of PHOTOS) {
   manifest[photo.name] = await buildPhoto(photo);
 }

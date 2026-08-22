@@ -1,0 +1,60 @@
+:root {
+  --gold: #e8b563;
+  --gold-light: #f6ddae;
+  --gold-soft: #f0c87f;
+  --gold-deep: #d19b4e;
+  --ink: #0a0908;
+  --ink-alt: #0d0b0a;
+  --ink-card: #100e0c;
+  --cream: #f8efe3;
+  --cream-2: #f6ede1;
+  --border: rgba(232, 181, 99, 0.14);
+  --border-strong: rgba(232, 181, 99, 0.35);
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream-2);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+picture {
+  display: contents;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}

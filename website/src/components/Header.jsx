@@ -12,6 +12,8 @@ export default function Header() {
           <img src={logo} alt="SD Store" className="header-logo" />
         </a>
 
+        <span className="header-wordmark">SD Store</span>
+
         <nav className="header-nav" aria-label="Primary">
           {NAV_LINKS.map((link) => (
             <a key={link.href} href={link.href}>

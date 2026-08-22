@@ -191,6 +191,17 @@
   object-fit: contain;
 }
 
+.header-wordmark {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font: 500 12px/1 var(--font-sans);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  pointer-events: none;
+}
+
 .header-nav {
   display: none;
 }
@@ -269,6 +280,10 @@
   .header-logo {
     height: 92px;
     width: 74px;
+  }
+
+  .header-wordmark {
+    display: none;
   }
 
   .header-nav {

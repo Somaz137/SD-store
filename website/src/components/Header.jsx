@@ -10,7 +10,6 @@ export default function Header() {
       <div className="header-bar">
         <a href="#top" className="header-brand" aria-label="SD Store, back to top">
           <img src={logo} alt="SD Store" className="header-logo" />
-          <span className="header-wordmark">SD</span>
         </a>
 
         <nav className="header-nav" aria-label="Primary">

@@ -380,7 +380,7 @@
   /* matches the hero-mobile crop (2304x1536) so object-fit: cover only
      trims a few px off each edge instead of cropping out the outer bottles */
   aspect-ratio: 1.5;
-  min-height: 320px;
+  min-height: 280px;
   max-height: 520px;
   overflow: hidden;
   scroll-margin-top: var(--header-h);

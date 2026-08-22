@@ -372,9 +372,11 @@
 
 .hero {
   position: relative;
-  height: 78vh;
-  min-height: 480px;
-  max-height: 620px;
+  /* matches the hero-mobile crop (2304x1536) so object-fit: cover only
+     trims a few px off each edge instead of cropping out the outer bottles */
+  aspect-ratio: 1.5;
+  min-height: 320px;
+  max-height: 520px;
   overflow: hidden;
   scroll-margin-top: var(--header-h);
 }
@@ -439,6 +441,7 @@
 
 @media (min-width: 861px) {
   .hero {
+    aspect-ratio: auto;
     height: 660px;
     max-height: none;
   }
